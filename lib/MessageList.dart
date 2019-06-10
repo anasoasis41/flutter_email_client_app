@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_email_client_app/ComposeButton.dart';
 import 'package:flutter_email_client_app/Message.dart';
+import 'package:flutter_email_client_app/MessageCompose.dart';
+import 'package:flutter_email_client_app/MessageDetail.dart';
 import 'package:http/http.dart' as http;
 
 class MessageList extends StatefulWidget {
@@ -56,26 +59,33 @@ class _MessageListState extends State<MessageList> {
                   return Text("There was an error: ${snapshot.error}");
                 var messages = snapshot.data;
                 return ListView.separated(
-                    itemCount: messages.length,
-                    separatorBuilder: (context, index) => Divider(),
-                    itemBuilder: (BuildContext context, int index) {
-                      Message message = messages[index];
-                      return ListTile(
-                        title: Text(message.subject),
-                        isThreeLine: true,
-                        leading: CircleAvatar(
-                          child: Text('AR'),
-                        ),
-                        subtitle: Text(
-                          message.body,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      );
-                    },
+                  itemCount: messages.length,
+                  separatorBuilder: (context, index) => Divider(),
+                  itemBuilder: (BuildContext context, int index) {
+                    Message message = messages[index];
+                    return ListTile(
+                      title: Text(message.subject),
+                      isThreeLine: true,
+                      leading: CircleAvatar(
+                        child: Text('AR'),
+                      ),
+                      subtitle: Text(
+                        message.body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (BuildContext context) => MessageDetail(message.subject, message.body)
+                        ));
+                      },
                     );
+                  },
+                );
             }
           },
-        ));
+        ),
+      floatingActionButton: ComposeButton()
+    );
   }
 }
