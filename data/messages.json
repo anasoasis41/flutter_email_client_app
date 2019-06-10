@@ -1,0 +1,30 @@
+[
+  {
+    "subject": "My first message",
+    "body": "Another text which is very very long so everyone can read it"
+  },
+  {
+    "subject": "My second message",
+    "body": "Another text which is very very long so everyone can read it"
+  },
+  {
+    "subject": "You won lottery",
+    "body": "Another text which is very very long so everyone can read it"
+  },
+  {
+    "subject": "You should read this message",
+    "body": "Another text which is very very long so everyone can read it"
+  },
+  {
+    "subject": "You won lottery again",
+    "body": "Another text which is very very long so everyone can read it"
+  },
+  {
+    "subject": "Another message",
+    "body": "Another text which is very very long so everyone can read it"
+  },
+  {
+    "subject": "message Serialization",
+    "body": "Another text which is very very long so everyone can read it"
+  }
+]
