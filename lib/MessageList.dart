@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_email_client_app/ComposeButton.dart';
 import 'package:flutter_email_client_app/Message.dart';
-import 'package:flutter_email_client_app/MessageCompose.dart';
 import 'package:flutter_email_client_app/MessageDetail.dart';
-import 'package:http/http.dart' as http;
 
 class MessageList extends StatefulWidget {
   final String title;
@@ -18,11 +15,17 @@ class MessageList extends StatefulWidget {
 }
 
 class _MessageListState extends State<MessageList> {
-  Future<List<Message>> messages;
+  Future<List<Message>> future;
+  List<Message> messages;
 
   void initState() {
     super.initState();
-    messages = Message.browse();
+    fetch();
+  }
+
+  void fetch() async {
+    future = Message.browse();
+    messages = await future;
   }
 
   Widget build(BuildContext context) {
@@ -32,8 +35,8 @@ class _MessageListState extends State<MessageList> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.refresh),
-              onPressed: () {
-                var _messages = Message.browse();
+              onPressed: () async {
+                var _messages = await Message.browse();
 
                 setState(() {
                   messages = _messages;
@@ -43,7 +46,7 @@ class _MessageListState extends State<MessageList> {
           ],
         ),
         body: FutureBuilder(
-          future: messages,
+          future: future,
           // ignore: missing_return
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             switch (snapshot.connectionState) {
@@ -85,7 +88,7 @@ class _MessageListState extends State<MessageList> {
             }
           },
         ),
-      floatingActionButton: ComposeButton()
+      floatingActionButton: ComposeButton(messages)
     );
   }
 }
