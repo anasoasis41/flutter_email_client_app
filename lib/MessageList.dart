@@ -37,9 +37,7 @@ class _MessageListState extends State<MessageList> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
-
               case ConnectionState.waiting:
-
               case ConnectionState.active:
                 return Center(child: CircularProgressIndicator());
 
