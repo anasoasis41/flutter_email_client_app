@@ -1,39 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_client_app/AppDrawer.dart';
+import 'package:flutter_email_client_app/ContactCounter.dart';
 import 'package:flutter_email_client_app/ContactListBuilder.dart';
-import 'package:flutter_email_client_app/ContactManager.dart';
-import 'package:flutter_email_client_app/ContactSearchDelegate.dart';
+import 'package:flutter_email_client_app/ContactSearch.dart';
 import 'package:flutter_email_client_app/model/Contact.dart';
 
 class ContactsScreen extends StatelessWidget {
-  ContactManager manager = ContactManager();
+  //ContactManager manager = ContactManager();
 
   @override
   Widget build(BuildContext context) {
+
     return DefaultTabController(
       child: Scaffold(
         appBar: AppBar(
           title: Text("Contacts"),
           actions: <Widget>[
-            StreamBuilder<int>(
-                stream: manager.contactCounter,
-                builder: (context, snapshot) {
-                  return Chip(
-                    label: Text(
-                      (snapshot.data ?? 0).toString(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    backgroundColor: Colors.red,
-                  );
-                }
-              ),
+            ContactCounter(),
             IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                showSearch(context: context, delegate: ContactSearchDelegate(manager: manager));
+                showSearch(
+                    context: context,
+                    delegate: ContactSearch()
+                );
               },
             ),
             Padding(
@@ -43,7 +33,6 @@ class ContactsScreen extends StatelessWidget {
         ),
         drawer: AppDrawer(),
         body: ContactListBuilder(
-          stream: manager.contactListView,
           builder: (context, contacts) {
             return ListView.separated(
               itemCount: contacts?.length ?? 0,

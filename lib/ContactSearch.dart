@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_client_app/ContactListBuilder.dart';
+import 'package:flutter_email_client_app/Provider.dart';
+import 'package:flutter_email_client_app/manager/ContactManager.dart';
 import 'package:flutter_email_client_app/model/Contact.dart';
 
-class ContactSearchDelegate extends SearchDelegate {
+class ContactSearch extends SearchDelegate {
 
   final manager;
-  ContactSearchDelegate({this.manager});
-
-  //ContactManager manager = ContactManager();
+  ContactSearch({this.manager});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -33,13 +33,14 @@ class ContactSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    ContactManager manager = Provider.of<ContactManager>(context);
+
     if (query.length < 3) {
       return Center(
         child: Text("Type at least 3 letters to search"),
       );
     }
     return ContactListBuilder(
-      stream: manager.filteredCollection(query: query),
       builder: (context, contacts) {
         return ListView.separated(
           itemCount: contacts?.length ?? 0,

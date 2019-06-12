@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter_email_client_app/model/Contact.dart';
 import 'package:flutter_email_client_app/service/ContatctService.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 class ContactManager {
 
-  final StreamController<int> _contactCounter = StreamController<int>();
+  // BehaviorSubject(rxdart): listen to data many times
+  final BehaviorSubject<int> _contactCounter = BehaviorSubject<int>();
   Stream<int> get contactCounter => _contactCounter.stream;
 
 
