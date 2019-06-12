@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_client_app/AppDrawer.dart';
 import 'package:flutter_email_client_app/ContactCounter.dart';
 import 'package:flutter_email_client_app/ContactListBuilder.dart';
-import 'package:flutter_email_client_app/ContactSearch.dart';
+import 'package:flutter_email_client_app/Overseer.dart';
+import 'package:flutter_email_client_app/screen/ContactSearch.dart';
+import 'package:flutter_email_client_app/Provider.dart';
+import 'package:flutter_email_client_app/manager/ContactManager.dart';
 import 'package:flutter_email_client_app/model/Contact.dart';
 
 class ContactsScreen extends StatelessWidget {
-  //ContactManager manager = ContactManager();
 
   @override
   Widget build(BuildContext context) {
+    ContactManager manager = Provider.of(context).fetch(ContactManager);
 
     return DefaultTabController(
       child: Scaffold(
@@ -33,6 +36,7 @@ class ContactsScreen extends StatelessWidget {
         ),
         drawer: AppDrawer(),
         body: ContactListBuilder(
+          stream: manager.contactListView,
           builder: (context, contacts) {
             return ListView.separated(
               itemCount: contacts?.length ?? 0,

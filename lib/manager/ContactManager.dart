@@ -15,7 +15,7 @@ class ContactManager {
   Stream<List<Contact>> get contactListView =>
       Stream.fromFuture(ContactService.browse());
 
-  Stream<List<Contact>> filteredCollection({query}) =>
+  Stream<List<Contact>> filteredView({query}) =>
       Stream.fromFuture(ContactService.browse(query: query));
 
 

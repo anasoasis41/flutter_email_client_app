@@ -6,7 +6,7 @@ import 'package:flutter_email_client_app/manager/ContactManager.dart';
 class ContactCounter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ContactManager manager = Provider.of<ContactManager>(context);
+    ContactManager manager = Provider.of(context).fetch(ContactManager);
 
     return StreamBuilder<int>(
         stream: manager.contactCounter,
