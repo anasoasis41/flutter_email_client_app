@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_client_app/AppDrawer.dart';
+import 'package:flutter_email_client_app/ContactListBuilder.dart';
 import 'package:flutter_email_client_app/ContactManager.dart';
+import 'package:flutter_email_client_app/ContactSearchDelegate.dart';
 import 'package:flutter_email_client_app/model/Contact.dart';
 
 class ContactsScreen extends StatelessWidget {
@@ -13,20 +15,26 @@ class ContactsScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Contacts"),
           actions: <Widget>[
-            Chip(
-              label: StreamBuilder<int>(
+            StreamBuilder<int>(
                 stream: manager.contactCounter,
                 builder: (context, snapshot) {
-                  return Text(
-                    (snapshot.data ?? 0).toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
+                  return Chip(
+                    label: Text(
+                      (snapshot.data ?? 0).toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
+                    backgroundColor: Colors.red,
                   );
                 }
               ),
-              backgroundColor: Colors.red,
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: ContactSearchDelegate(manager: manager));
+              },
             ),
             Padding(
               padding: EdgeInsets.only(right: 16),
@@ -34,35 +42,24 @@ class ContactsScreen extends StatelessWidget {
           ],
         ),
         drawer: AppDrawer(),
-        body: StreamBuilder (
-            stream: manager.contactListView,
-            // ignore: missing_return
-            builder: (BuildContext context, AsyncSnapshot<List<Contact>> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                return Center(child: CircularProgressIndicator());
+        body: ContactListBuilder(
+          stream: manager.contactListView,
+          builder: (context, contacts) {
+            return ListView.separated(
+              itemCount: contacts?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                Contact _contact = contacts[index];
 
-              case ConnectionState.done:
-                List<Contact> contacts = snapshot.data;
-                return ListView.separated(
-                  itemCount: contacts?.length ?? 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    Contact _contact = contacts[index];
-
-                    return ListTile(
-                      title: Text(_contact.name),
-                      subtitle: Text(_contact.email),
-                      leading: CircleAvatar(),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Divider(),
+                return ListTile(
+                  title: Text(_contact.name),
+                  subtitle: Text(_contact.email),
+                  leading: CircleAvatar(),
                 );
-            }
-
-            },
-        ),
+              },
+              separatorBuilder: (context, index) => Divider(),
+            );
+          }
+        )
       ),
       length: 2,
     );
