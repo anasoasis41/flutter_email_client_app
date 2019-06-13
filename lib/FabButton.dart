@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_email_client_app/UglyProvider.dart';
+import 'package:flutter_email_client_app/Provider.dart';
+import 'package:flutter_email_client_app/manager/CounterManager.dart';
 
 
 
@@ -7,10 +8,10 @@ class FabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var state = UglyProvider.of(context);
+    CounterManager manager = Provider.of(context).fetch(CounterManager);
 
     return FloatingActionButton(
-      onPressed: state.increment,
+      onPressed: manager.increment,
     );
   }
 }

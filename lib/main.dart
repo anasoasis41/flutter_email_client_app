@@ -16,7 +16,7 @@ class EmailApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.indigo, accentColor: Colors.indigoAccent
         ),
-        home: UglyProvider(child: App()),
+        home: App(),
       ),
     );
   }
