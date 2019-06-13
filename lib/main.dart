@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_client_app/App.dart';
 import 'package:flutter_email_client_app/Overseer.dart';
-import 'package:flutter_email_client_app/UglyProvider.dart';
 import 'package:flutter_email_client_app/Provider.dart';
 
 void main() => runApp(EmailApp());
