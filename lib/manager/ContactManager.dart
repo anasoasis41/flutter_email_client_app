@@ -6,19 +6,20 @@ import 'package:rxdart/rxdart.dart';
 
 
 class ContactManager {
+  // provide streams to subscribe many times
   final PublishSubject<String> _filterSubject = PublishSubject<String>();
-  // BehaviorSubject(rxdart): listen to data many times
-  final BehaviorSubject<int> _countSubject = BehaviorSubject<int>();
+  // BehaviorSubject(rxdart): remember tke last seen value
+  final PublishSubject<int> _countSubject = PublishSubject<int>();
   final PublishSubject<List<Contact>> _collectionSubject = PublishSubject();
 
   // receive data
   Sink<String> get inFilter => _filterSubject.sink;
 
-  Stream<int> get count$ => _countSubject.stream;
-  Stream<List<Contact>> get browse$ => _collectionSubject.stream;
+  Observable<int> get count$ => _countSubject.stream;
+  Observable<List<Contact>> get browse$ => _collectionSubject.stream;
 
   ContactManager() {
-    _filterSubject.stream.listen((filter) async {
+    _filterSubject.listen((filter) async {
       var contacts = await ContactService.browse(filter: filter);
 
       _collectionSubject.add(contacts);
