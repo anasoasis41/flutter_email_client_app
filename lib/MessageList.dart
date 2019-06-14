@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_email_client_app/Message.dart';
+import 'package:flutter_email_client_app/model/Message.dart';
 import 'package:flutter_email_client_app/screen/MessageDetail.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

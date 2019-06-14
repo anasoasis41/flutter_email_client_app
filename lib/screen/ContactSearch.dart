@@ -5,7 +5,6 @@ import 'package:flutter_email_client_app/manager/ContactManager.dart';
 import 'package:flutter_email_client_app/model/Contact.dart';
 
 class ContactSearch extends SearchDelegate {
-
   final manager;
   ContactSearch({this.manager});
 
@@ -17,7 +16,7 @@ class ContactSearch extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-      )
+      ),
     ];
   }
 
@@ -27,8 +26,7 @@ class ContactSearch extends SearchDelegate {
         icon: Icon(Icons.arrow_back),
         onPressed: () {
           close(context, null);
-        }
-    );
+        });
   }
 
   @override
@@ -87,4 +85,15 @@ class ContactSearch extends SearchDelegate {
     );
   }
 
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert(theme != null);
+    return ThemeData(
+      brightness: Brightness.dark,
+      primaryColor: Colors.lightBlue[800],
+      accentColor: Colors.cyan[600],
+    );
+  }
 }
