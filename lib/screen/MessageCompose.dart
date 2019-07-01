@@ -3,7 +3,6 @@ import 'package:flutter_email_client_app/Observer.dart';
 import 'package:flutter_email_client_app/Provider.dart';
 import 'package:flutter_email_client_app/manager/MessageFormManager.dart';
 import 'package:flutter_email_client_app/model/Message.dart';
-import 'package:rxdart/rxdart.dart';
 
 
 class MessageCompose extends StatefulWidget {
@@ -49,10 +48,11 @@ class _MessageComposeState extends State<MessageCompose> {
                   },
                   onError: (context, error) {
                     return TextField(
+                      onChanged: manager.inEmail.add,
                       decoration: InputDecoration(
                         labelText: 'To (error)',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                        errorText: "This field is invalid"
+                        errorText: error,
                       ),
                     );
                   },
