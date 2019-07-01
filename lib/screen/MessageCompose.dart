@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_client_app/Observer.dart';
+import 'package:flutter_email_client_app/Provider.dart';
+import 'package:flutter_email_client_app/manager/MessageFormManager.dart';
 import 'package:flutter_email_client_app/model/Message.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 class MessageCompose extends StatefulWidget {
@@ -19,6 +23,9 @@ class _MessageComposeState extends State<MessageCompose> {
 
   @override
   Widget build(BuildContext context) {
+    // Access a manager using a Provider class
+    MessageFormManager manager = Provider.of(context).fetch(MessageFormManager);
+
     return Scaffold(
       appBar: new AppBar(
         title: Text("Compose New Message"),
@@ -29,15 +36,27 @@ class _MessageComposeState extends State<MessageCompose> {
           child: Column(
             children: <Widget>[
               ListTile(
-                title: TextFormField(
-                  validator: (value) => !value.contains('@')
-                      ? "‘TO‘ field must be a valid email"
-                      : null,
-                  onSaved: (value) => to = value,
-                  decoration: InputDecoration(
-                    labelText: 'To',
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                title: Observer(
+                  stream: manager.email$,
+                  onSuccess: (context, data) {
+                    return TextField(
+                      onChanged: manager.inEmail.add,
+                      decoration: InputDecoration(
+                        labelText: 'To',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  },
+                  onError: (context, error) {
+                    return TextField(
+                      decoration: InputDecoration(
+                        labelText: 'To (error)',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        errorText: "This field is invalid"
+                      ),
+                    );
+                  },
+
                 ),
               ),
 
